@@ -41,7 +41,7 @@ def generate():
     """
     passwords = get_rockyou()
     password = ' '.join(random.choice(passwords) for i in range(4))
-    return f'Passphrase: {password}'
+    return render_template('generate.html', password=password)
 
 
 if __name__ == '__main__':

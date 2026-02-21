@@ -4,7 +4,7 @@ from the RockYou database.
 """
 
 from flask import Flask, render_template
-import random
+import secrets
 import bs4
 import requests
 
@@ -16,7 +16,7 @@ def get_rockyou():
     Scrape the RockYou passwords from SecLists rockyou.txt files
     """
     url = 'https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/Leaked-Databases/rockyou-20.txt'
-    response = requests.get(url)
+    response = requests.get(url, timeout=10)
     response.raise_for_status()
 
     content = response.text
@@ -40,9 +40,9 @@ def generate():
     Generate a passphrase fromt he rockyou passwords.
     """
     passwords = get_rockyou()
-    password = ' '.join(random.choice(passwords) for i in range(4))
+    password = ' '.join(secrets.choice(passwords) for i in range(4))
     return render_template('generate.html', password=password)
 
 
 if __name__ == '__main__':
-    APP.run(debug=True)
+    APP.run(debug=False)
